@@ -1,0 +1,11 @@
+body {
+  transition: background ease-in 0.3s;
+  font-family: sans-serif;
+}
+
+#tts-content {
+  margin: 4em;
+  font-size: 4em;
+  display: block;
+  text-align: center;
+}
