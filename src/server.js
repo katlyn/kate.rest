@@ -4,6 +4,10 @@ const sanitize = require('sanitize-html')
 const say = require('say')
 const validateColor = require('validate-color').default
 
+fastify.register(require('fastify-cors'), { 
+  // put your options here
+})
+
 const state = {
   color: 'white',
   lastText: '',

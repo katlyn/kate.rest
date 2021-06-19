@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   electron: ^13.1.2
   fastify: ^3.18.0
+  fastify-cors: ^6.0.1
   sanitize-html: ^2.4.0
   say: ^0.16.0
   validate-color: ^2.1.1
@@ -10,6 +11,7 @@ specifiers:
 dependencies:
   electron: 13.1.2
   fastify: 3.18.0
+  fastify-cors: 6.0.1
   sanitize-html: 2.4.0
   say: 0.16.0
   validate-color: 2.1.1
@@ -321,8 +323,19 @@ packages:
     resolution: {integrity: sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==}
     dev: false
 
+  /fastify-cors/6.0.1:
+    resolution: {integrity: sha512-eeNTdQNmBsqHL87we+X74n9+H0hTDX0cXGVdyZjGf9om2pZfigAZwuSxaUUE2pLP9tp5+rEd5kejKQ8+ZCvAoA==}
+    dependencies:
+      fastify-plugin: 3.0.0
+      vary: 1.1.2
+    dev: false
+
   /fastify-error/0.3.1:
     resolution: {integrity: sha512-oCfpcsDndgnDVgiI7bwFKAun2dO+4h84vBlkWsWnz/OUK9Reff5UFoFl241xTiLeHWX/vU9zkDVXqYUxjOwHcQ==}
+    dev: false
+
+  /fastify-plugin/3.0.0:
+    resolution: {integrity: sha512-ZdCvKEEd92DNLps5n0v231Bha8bkz1DjnPP/aEz37rz/q42Z5JVLmgnqR4DYuNn3NXAO3IDCPyRvgvxtJ4Ym4w==}
     dev: false
 
   /fastify-warning/0.2.0:
@@ -938,6 +951,11 @@ packages:
     peerDependencies:
       react: ^17.0.1
       react-dom: ^17.0.1
+    dev: false
+
+  /vary/1.1.2:
+    resolution: {integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=}
+    engines: {node: '>= 0.8'}
     dev: false
 
   /wrappy/1.0.2:
