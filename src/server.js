@@ -43,7 +43,7 @@ GET /say
   Returns the last thing that was said to kate.
 
 POST /say
-  Say a string to kate. Requires a JSON body formatted as follows:
+  Say a string to kate with TTS. Requires a JSON body formatted as follows:
   
   {
     "text": "henlo kate"
