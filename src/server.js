@@ -1,5 +1,21 @@
 const EventEmitter = require('events')
-const fastify = require('fastify')({ logger: true })
+const fastify = require('fastify')({ logger: {
+  stream: stream,
+  redact: ['req.headers.authorization'],
+  level: 'info',
+  serializers: {
+    req (req) {
+      return {
+        method: req.method,
+        url: req.url,
+        headers: req.headers,
+        hostname: req.hostname,
+        remoteAddress: req.ip,
+        remotePort: req.connection.remotePort
+      }
+    }
+  }
+} })
 const sanitize = require('sanitize-html')
 const say = require('say')
 const validateColor = require('validate-color').default
