@@ -12,8 +12,11 @@
     "electron": "^13.1.2",
     "fastify": "^3.18.0",
     "fastify-cors": "^6.0.1",
+    "nanoleaf-client": "^0.2.2",
+    "node-fetch": "^2.6.1",
     "sanitize-html": "^2.4.0",
     "say": "^0.16.0",
-    "validate-color": "^2.1.1"
+    "validate-color": "^2.1.1",
+    "ws": "^7.5.0"
   }
 }
