@@ -1,27 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <Wall/>
+  <Picker/>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import Picker from './components/Picker.vue'
+import Wall from './components/Wall.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    Wall,
+    Picker
   }
 })
 </script>
 
 <style lang="scss">
+:root {
+  --background-primary: #1E1F29;
+  --background-secondary: #2f3040;
+  --background-secondary-alt: #2f3040;
+  --background-tertiary: #37394b;
+  --background-accent: #474a62;
+  --background-selected: #676b8e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1E1F29;
+  color: #eee;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  > .wall {
+    max-height: calc(100vh - 2em);
+  }
 }
 </style>
