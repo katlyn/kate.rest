@@ -15,14 +15,11 @@ import panelListener from './panelListener'
       serializers: {
         req (request) {
           return {
-            reqId: request.id,
-            req: {
-              method: request.method,
-              url: request.url,
-              hostname: request.hostname,
-              remoteAddress: request.headers['CF-Connecting-IP'] as string ?? request.ip,
-              remotePort: request.socket.remotePort
-            }
+            method: request.method,
+            url: request.url,
+            hostname: request.hostname,
+            remoteAddress: request.headers['cf-connecting-ip'] as string ?? request.ip,
+            remotePort: request.socket.remotePort
           }
         }
       }
@@ -32,7 +29,7 @@ import panelListener from './panelListener'
   await fastify.register(fastifyRateLimit, {
     max: 60,
     timeWindow: '1 minute',
-    keyGenerator (req) { return req.headers['CF-Connecting-IP'] as string ?? req.ip }
+    keyGenerator (req) { return req.headers['cf-connecting-ip'] as string ?? req.ip }
   })
   await fastify.register(fastifyStatic, {
     root: join(__dirname, '..', 'frontend'),
