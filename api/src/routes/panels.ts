@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify'
 import socketioServer from 'fastify-socket.io'
 import { NotFound } from 'http-errors'
-import fetch from 'node-fetch'
+
 import panelListener from '../panelListener'
-import { getPanelAnimData, getPanelColor, getPanelLayout, PanelColor, setPanelColor } from '../store'
+import { getPanelColor, getPanelLayout, PanelColor, setPanelColor } from '../store'
 
 interface Params {
   panel: number
@@ -55,20 +55,6 @@ export default async function (fastify: FastifyInstance): Promise<void> {
       throw new NotFound('panel does not exist')
     }
     await setPanelColor(request.params.panel, request.body)
-    await fetch(`http://${process.env.NANOLEAF_IP}/api/v1/${process.env.NANOLEAF_KEY}/effects`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        write: {
-          command: 'display',
-          animType: 'custom',
-          animData: await getPanelAnimData(),
-          loop: true
-        }
-      })
-    })
     fastify.io.emit('colorUpdate', [{
       ...request.body,
       panelId: request.params.panel

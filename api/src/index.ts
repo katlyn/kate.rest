@@ -4,10 +4,10 @@ import Fastify from 'fastify'
 import fastifyCors from 'fastify-cors'
 import fastifyRateLimit from 'fastify-rate-limit'
 import fastifyStatic from 'fastify-static'
+import { join } from 'path'
 
 import routes from './routes'
 import panelListener from './panelListener'
-import { join } from 'path'
 
 (async () => {
   const fastify = Fastify({ logger: true, trustProxy: true })

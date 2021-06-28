@@ -1,13 +1,22 @@
 import type { FastifyInstance } from 'fastify'
+import kate from './kate'
+
 import color from './panels'
 
 export default async function (fastify: FastifyInstance): Promise<void> {
   await fastify.register(color, { prefix: '/panels' })
+  await fastify.register(kate, { prefix: '/kate' })
 
   fastify.get('/', async (request, reply) => {
     return `--- kate.rest ---
 
 ROUTES
+  KATE - /kate
+
+    GET /
+      Return basic state information on kate. Currently only returns sleep
+      status.
+
   LIGHT CONTROL - /panels
 
     GET /color/<panel-id>
@@ -75,6 +84,12 @@ NOTES
     |\`retry-after\`           | if the max has been reached, the milliseconds   |
     |                        |   the client must wait before they can make new |
     |                        |   requests                                      |
+
+  SLEEP STATUS
+    The sleep status of kate is maintained by the power state of the
+    API-controlled light panel. If the panel is off, kate is shown as sleeping.
+    As a note, any color changes done to the panel will be saved into state and
+    updated when the panel is turned on again.
 `
   })
 }

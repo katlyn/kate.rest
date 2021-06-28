@@ -20,7 +20,7 @@ export enum PanelAttributes {
 
 export interface PanelStateEvent {
   attr: PanelAttributes
-  value: number
+  value: number|boolean
 }
 
 export enum PanelLayout {
@@ -76,7 +76,6 @@ class PanelEventStream extends Writable {
 
     for (const event of events) {
       this._panelListener.emit(PanelEventTypes[eventType].toLowerCase() as keyof PanelEvents, event)
-      console.log(PanelEventTypes[eventType].toLowerCase(), event)
     }
 
     next()
@@ -105,9 +104,9 @@ class PanelListener extends TypedEmitter<PanelEvents> {
   async connect (): Promise<void> {
     // Fetch state to populate initial values
     const stateRes = await fetch(`http://${this._host}/api/v1/${this._token}/`)
-    console.log(stateRes.ok, stateRes.status, stateRes.statusText)
     const data = await stateRes.json()
     this.emit('layout', { attr: 1, value: data.panelLayout.layout })
+    this.emit('state', { attr: PanelAttributes.ON, value: data.state.on.value })
 
     // Connect to the socket to listen to events
     const res = await fetch(`http://${this._host}/api/v1/${this._token}/events?id=1,2,4`)
