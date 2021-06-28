@@ -1,9 +1,10 @@
 import type { FastifyInstance } from 'fastify'
 import kate from './kate'
 
-import color from './panels'
+import color from './control/panels'
 
 export default async function (fastify: FastifyInstance): Promise<void> {
+  await fastify.register(color, { prefix: '/control/panels' })
   await fastify.register(color, { prefix: '/panels' })
   await fastify.register(kate, { prefix: '/kate' })
 
@@ -11,27 +12,24 @@ export default async function (fastify: FastifyInstance): Promise<void> {
     return `--- kate.rest ---
 
 ROUTES
-  KATE - /kate
+  GET /state
+    Return basic state information on kate. Currently only returns sleep
+    status.
 
-    GET /
-      Return basic state information on kate. Currently only returns sleep
-      status.
-
-  LIGHT CONTROL - /panels
-
-    GET /color/<panel-id>
+  CONTROL
+    GET /control/panels/color/<panel-id>
       Get the color of the requested panel. Returns a Color object.
 
-    POST /color/<panel-id>
+    POST /control/panels/color/<panel-id>
       Set the color of the requested panel. Returns 204 - no content on success.
 
-    GET /layout
+    GET /control/panels/layout
       Returns the current layout of the panels. This can be used to reconstruct
       a visual of the panels, as well as be used to aquire a list of all panel
       ids. Returns a Layout object.
 
-    SOCKET.IO /socket
-      You are able to connect to this path with a socket.io client to recieve
+    WEBSOCKET /control/panels/socket
+      You are able to connect to this path with a websocket client to recieve
       color and layout updates in realtime. Events emitted are \`layoutUpdate\`
       and \`colorUpdate\`.
 

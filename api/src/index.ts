@@ -4,6 +4,7 @@ import Fastify from 'fastify'
 import fastifyCors from 'fastify-cors'
 import fastifyRateLimit from 'fastify-rate-limit'
 import fastifyStatic from 'fastify-static'
+import fastifyWebsocket from 'fastify-websocket'
 import { join } from 'path'
 
 import routes from './routes'
@@ -31,6 +32,7 @@ import panelListener from './panelListener'
     timeWindow: '1 minute',
     keyGenerator (req) { return req.headers['cf-connecting-ip'] as string ?? req.ip }
   })
+  await fastify.register(fastifyWebsocket)
   await fastify.register(fastifyStatic, {
     root: join(__dirname, '..', 'frontend'),
     prefix: '/gui'

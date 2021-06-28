@@ -1,5 +1,5 @@
 import { Store } from './Store'
-import socket from '@/socket'
+import socket, { isCustomEvent } from '@/socket'
 
 export interface PanelPosition {
   panelId: number
@@ -48,16 +48,18 @@ export const setSelected = (panel: number): void => {
   store.state.selected = panel
 }
 
-socket.on('layoutUpdate', (layout: CanvasLayout) => {
-  console.log(layout)
-  store.state.layout.numPanels = layout.numPanels
-  store.state.layout.sideLength = layout.sideLength
-  store.state.layout.positionData = layout.positionData
+socket.addEventListener('layoutUpdate', ev => {
+  if (!isCustomEvent(ev)) return
+  console.log(ev.detail)
+  store.state.layout.numPanels = ev.detail.numPanels
+  store.state.layout.sideLength = ev.detail.sideLength
+  store.state.layout.positionData = ev.detail.positionData
 })
 
-socket.on('colorUpdate', (panels: PanelColor[]) => {
-  console.log(panels)
-  for (const panel of panels) {
+socket.addEventListener('colorUpdate', ev => {
+  if (!isCustomEvent(ev)) return
+  console.log(ev.detail)
+  for (const panel of ev.detail) {
     store.state.colors[panel.panelId] = panel
   }
 })

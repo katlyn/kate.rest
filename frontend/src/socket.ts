@@ -1,9 +1,27 @@
-import { io } from 'socket.io-client'
+let socketUri: string
+if (location.protocol === 'https:') {
+  socketUri = 'wss:'
+} else {
+  socketUri = 'ws:'
+}
+socketUri += '//' + location.host + '/control/panels/socket'
 
-const socket = io({ path: '/panels/socket' })
+const socket = new WebSocket(socketUri)
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-window.socket = socket
+class SocketEmitter extends EventTarget {
+  constructor () {
+    super()
+    socket.addEventListener('message', this._handleMessage.bind(this))
+  }
 
-export default socket
+  _handleMessage (ev: MessageEvent) {
+    const payload = JSON.parse(ev.data)
+    this.dispatchEvent(new CustomEvent(payload.type, { detail: payload.d }))
+  }
+}
+
+export const isCustomEvent = (ev: Event): ev is CustomEvent => {
+  return 'detail' in ev
+}
+
+export default new SocketEmitter()
