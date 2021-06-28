@@ -6,7 +6,7 @@ import color from './control/panels'
 export default async function (fastify: FastifyInstance): Promise<void> {
   await fastify.register(color, { prefix: '/control/panels' })
   await fastify.register(color, { prefix: '/panels' })
-  await fastify.register(kate, { prefix: '/kate' })
+  await fastify.register(kate, { prefix: '/state' })
 
   fastify.get('/', async (request, reply) => {
     return `--- kate.rest ---
