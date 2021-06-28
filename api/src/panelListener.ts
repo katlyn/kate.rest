@@ -1,17 +1,15 @@
-import { EventEmitter } from 'events'
+import { TypedEmitter } from 'tiny-typed-emitter'
 import fetch from 'node-fetch'
 import { Writable } from 'stream'
 
-import { fastify } from './fastify'
-
-export enum PanelEvents {
+export enum PanelEventTypes {
   STATE = 1,
   LAYOUT,
   EFFECTS,
   TOUCH
 }
 
-export enum PanelState {
+export enum PanelAttributes {
   ON = 1,
   BRIGHTNESS,
   HUE,
@@ -20,12 +18,36 @@ export enum PanelState {
   COLOR_MODE
 }
 
+export interface PanelStateEvent {
+  attr: PanelAttributes
+  value: number
+}
+
 export enum PanelLayout {
   LAYOUT = 1,
   GLOBAL_ORIENTATION
 }
 
-export enum PanelTouch {
+export interface PanelPosition {
+  panelId: number
+  x: number
+  y: number
+  o: number
+  shapeType: number
+}
+
+export interface CanvasLayout {
+  numPanels: number
+  sideLength: number
+  positionData: PanelPosition[]
+}
+
+export interface PanelLayoutEvent {
+  attr: PanelLayout
+  value: number | CanvasLayout
+}
+
+export enum PanelGesture {
   SINGLE_TAP = 0,
   DOUBLE_TAP,
   SWIPE_UP,
@@ -34,53 +56,72 @@ export enum PanelTouch {
   SWIPE_RIGHT
 }
 
+export interface PanelTouchEvent {
+  gesture: PanelGesture
+  panelId: number
+}
+
 class PanelEventStream extends Writable {
+  _panelListener: PanelListener
+  constructor (panelListener: PanelListener) {
+    super()
+    this._panelListener = panelListener
+  }
+
   _write (chunk: Buffer, enc: string, next: (err?: Error) => void): void {
     const payload = chunk.toString().trim()
     const lines = payload.split('\n')
     const eventType = Number(lines[0].substr(lines[0].indexOf(' ') + 1))
-    const { events } = JSON.parse(lines[1].substr(lines[1].indexOf(' ') + 1))
-
-    console.log(PanelEvents[eventType])
+    const events: Array<PanelStateEvent|PanelTouchEvent|PanelLayoutEvent> = JSON.parse(lines[1].substr(lines[1].indexOf(' ') + 1)).events
 
     for (const event of events) {
-      this.emit(PanelEvents[eventType], event)
-    }
-
-    if (eventType === PanelEvents.LAYOUT) {
-      fastify.io.emit('layoutUpdate', events[0])
+      this._panelListener.emit(PanelEventTypes[eventType].toLowerCase() as keyof PanelEvents, event)
+      console.log(PanelEventTypes[eventType].toLowerCase(), event)
     }
 
     next()
   }
 }
 
-class PanelListener extends EventEmitter {
-  constructor () {
+interface PanelEvents {
+  'connected': () => void
+  'disconnected': () => void
+  'error': (err: any) => void
+  'state': (event: PanelStateEvent) => void
+  'layout': (event: PanelLayoutEvent) => void
+  'touch': (event: PanelTouchEvent) => void
+}
+
+class PanelListener extends TypedEmitter<PanelEvents> {
+  private readonly _host: string
+  private readonly _token: string
+
+  constructor (host: string, token: string) {
     super()
-    this._connect().catch(err => { throw err })
+    this._host = host
+    this._token = token
   }
 
-  async _connect () {
+  async connect (): Promise<void> {
+    // Fetch state to populate initial values
+    const stateRes = await fetch(`http://${this._host}/api/v1/${this._token}/`)
+    const data = await stateRes.json()
+    this.emit('layout', { attr: 1, value: data.panelLayout.layout })
 
+    // Connect to the socket to listen to events
+    const res = await fetch(`http://${this._host}/api/v1/${this._token}/events?id=1,2,4`)
+    this.emit('connected')
+    if (res.ok) {
+      res.body.pipe(new PanelEventStream(this))
+      res.body.on('end', () => {
+        this.emit('disconnected')
+      })
+    } else {
+      this.emit('error', res)
+    }
   }
 }
 
-export const setup = async (): Promise<void> => {
-  const res = await fetch('http://192.168.9.24:16021/api/v1/key/events?id=1,2,4')
-  if (res.ok) {
-    res.body.pipe(panelEventStream)
-    res.body.on('end', () => {
-      throw new Error('Disconnected from Nanoleaf event socket')
-    })
-  } else {
-    throw new Error('Unable to connect to Nanoleaf event socket')
-  }
-}
+const panelListener = new PanelListener('192.168.9.24:16021', '0q0Sg8BJGiwVcoZvTwelBJmkfNOdVse5')
 
-const panelEventStream = new PanelEventStream()
-
-export default {
-  panelEventStream,
-  setup
-}
+export default panelListener

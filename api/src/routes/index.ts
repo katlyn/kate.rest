@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
-import color from './color'
+import color from './panels'
 
 export default async function (fastify: FastifyInstance): Promise<void> {
-  await fastify.register(color)
+  await fastify.register(color, { prefix: '/panels' })
 }
