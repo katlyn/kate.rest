@@ -105,6 +105,7 @@ class PanelListener extends TypedEmitter<PanelEvents> {
   async connect (): Promise<void> {
     // Fetch state to populate initial values
     const stateRes = await fetch(`http://${this._host}/api/v1/${this._token}/`)
+    console.log(stateRes.ok, stateRes.status, stateRes.statusText)
     const data = await stateRes.json()
     this.emit('layout', { attr: 1, value: data.panelLayout.layout })
 
@@ -122,6 +123,6 @@ class PanelListener extends TypedEmitter<PanelEvents> {
   }
 }
 
-const panelListener = new PanelListener('192.168.9.24:16021', '0q0Sg8BJGiwVcoZvTwelBJmkfNOdVse5')
+const panelListener = new PanelListener(process.env.NANOLEAF_IP, process.env.NANOLEAF_KEY)
 
 export default panelListener

@@ -55,7 +55,7 @@ export default async function (fastify: FastifyInstance): Promise<void> {
       throw new NotFound('panel does not exist')
     }
     await setPanelColor(request.params.panel, request.body)
-    await fetch('http://192.168.9.24:16021/api/v1/0q0Sg8BJGiwVcoZvTwelBJmkfNOdVse5/effects', {
+    await fetch(`http://${process.env.NANOLEAF_IP}/api/v1/${process.env.NANOLEAF_KEY}/effects`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

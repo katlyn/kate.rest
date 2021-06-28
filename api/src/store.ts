@@ -1,7 +1,7 @@
 import Keyv from 'keyv'
 import panelListener, { CanvasLayout } from './panelListener'
 
-const store = new Keyv('sqlite://store.sqlite')
+const store = new Keyv('sqlite://persist/store.sqlite')
 export default store
 
 export interface PanelColor {
