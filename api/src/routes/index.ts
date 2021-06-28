@@ -57,7 +57,9 @@ DEFINITIONS
 NOTES
   PANEL GUI
     If you don't want to use the API, you can control the panels with a more
-    user-friendly interface at https://kate.rest/gui/.
+    user-friendly interface at https://kate.rest/gui/. Note that this client
+    does not properly respect rate limits, rapid changes and errors will not be
+    handled properly.
 
   RATELIMITING
     Most routes are ratelimited. Headers will be returned with information on
