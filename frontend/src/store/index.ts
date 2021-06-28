@@ -10,40 +10,29 @@ export interface PanelPosition {
 }
 
 export interface CanvasLayout {
-  globalOrientation: {
-    value: number
-    max: number
-    min: number
-  }
-
-  layout: {
-    numPanels: number
-    sideLength: number
-    positionData: PanelPosition[]
-  }
+  numPanels: number
+  sideLength: number
+  positionData: PanelPosition[]
 }
 
 export interface PanelColor {
-  id: number
+  panelId: number
   r: number
   g: number
   b: number
 }
 
 interface State {
-  wall: CanvasLayout
+  layout: CanvasLayout
   colors: { [key: number]: PanelColor },
   selected: number|null
 }
 
 const state: State = {
-  wall: {
-    globalOrientation: { value: 90, max: 360, min: 0 },
-    layout: {
-      numPanels: 0,
-      sideLength: 100,
-      positionData: []
-    }
+  layout: {
+    numPanels: 0,
+    sideLength: 100,
+    positionData: []
   },
   colors: {},
   selected: null
@@ -59,17 +48,17 @@ export const setSelected = (panel: number): void => {
   store.state.selected = panel
 }
 
-socket.on('layoutUpdate', layout => {
+socket.on('layoutUpdate', (layout: CanvasLayout) => {
   console.log(layout)
-  if (layout.attr === 1) {
-    store.state.wall.layout = layout.value
-  }
+  store.state.layout.numPanels = layout.numPanels
+  store.state.layout.sideLength = layout.sideLength
+  store.state.layout.positionData = layout.positionData
 })
 
-socket.on('colorUpdate', (panels: State['colors']) => {
+socket.on('colorUpdate', (panels: PanelColor[]) => {
   console.log(panels)
-  for (const panel in panels) {
-    store.state.colors[panel] = panels[panel]
+  for (const panel of panels) {
+    store.state.colors[panel.panelId] = panel
   }
 })
 

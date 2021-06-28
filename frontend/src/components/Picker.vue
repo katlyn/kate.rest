@@ -33,7 +33,7 @@ export default defineComponent({
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
       }
-      fetch(`http://192.168.9.248:3000/v1/color/${store.state.selected}`, {
+      fetch(`http://192.168.9.248:3000/panels/color/${store.state.selected}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

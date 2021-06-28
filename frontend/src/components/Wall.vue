@@ -31,7 +31,7 @@ export default defineComponent({
   },
   data () {
     return {
-      wall: state.state.wall
+      rawLayout: state.state.layout
     }
   },
   computed: {
@@ -43,11 +43,11 @@ export default defineComponent({
 
       return { x, y }
     },
-    layout (): CanvasLayout['layout'] {
+    layout (): CanvasLayout {
       return {
-        numPanels: this.wall.layout.numPanels,
-        sideLength: this.wall.layout.sideLength,
-        positionData: this.wall.layout.positionData.map(d => ({
+        numPanels: this.rawLayout.numPanels,
+        sideLength: this.rawLayout.sideLength,
+        positionData: this.rawLayout.positionData.map(d => ({
           panelId: d.panelId,
           shapeType: d.shapeType,
           x: d.y,
