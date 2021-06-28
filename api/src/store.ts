@@ -55,7 +55,12 @@ export const getPanelAnimData = async (): Promise<string> => {
   // [numPanels] [panel ID] [numFrames] [r] [g] [b] [w (unused)] [transition]
   let animData = layout.positionData.length.toString()
   for (const { panelId } of layout.positionData) {
-    const { r, g, b } = await getPanelColor(panelId)
+    const color = await getPanelColor(panelId)
+    if (color === undefined) {
+      animData += ` ${panelId} 1 0 0 0 0 2`
+      continue
+    }
+    const { r, g, b } = color
     animData += ` ${panelId} 1 ${r} ${g} ${b} 0 2`
   }
   return animData
