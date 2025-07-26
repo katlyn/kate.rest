@@ -16,7 +16,9 @@ jobs:
         id: metadata
         with:
           images: ghcr.io/katlyn/kate.rest
-          tags: type=ref,event=branch
+          tags: |
+            type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
