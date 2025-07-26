@@ -1,5 +1,3 @@
-import { errorCss } from "$fresh/src/server/error_overlay.tsx";
-import { rangeIntersects } from "$std/semver/range_intersects.ts";
 import env from "../config/env.ts";
 
 interface PavlokClientOptions {
