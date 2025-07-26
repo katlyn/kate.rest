@@ -1,0 +1,164 @@
+:root {
+  --peach: #efc4df;
+  --strawberry: #e5a0a0;
+  --cantaloupe: #f9b28c;
+  --banana: #f0cf9f;
+  --watermelon: #b0d2b0;
+  --mint: #95fecc;
+  --water: #80bbdb;
+  --ube: #a99dbd;
+  --tapioca: #c1c1c1;
+  --dark: #282828;
+  --dark-layer: #181818;
+  --light: #eee;
+  --light-layer: #fff;
+  --accent: var(--cantaloupe);
+  --foreground: var(--dark);
+  --foreground-layer: var(--dark-layer);
+  --background: var(--light);
+  --background-layer: var(--light-layer);
+  font-family: "Lexend", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--foreground);
+  background-color: var(--background);
+  margin: auto;
+  max-width: 70rem;
+  padding: 2em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+/* Forms and inputs */
+:focus {
+  outline: var(--foreground) double medium;
+  outline-offset: 1px;
+}
+
+fieldset {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5em 1em;
+  padding: 1em;
+  border: 1px solid var(--foreground);
+  margin-top: 1em;
+
+  legend {
+    padding: 0.5rem;
+    color: var(--background);
+    background-color: var(--foreground);
+  }
+
+  label {
+    text-align: right;
+    margin: auto 0;
+  }
+
+  .form-controls {
+    grid-column: 1/3;
+    margin-top: 0.5em;
+    padding-top: 1em;
+    border-top: var(--tapioca) 1px solid;
+
+    .controls-left, .controls-right {
+      display: flex;
+      gap: 0.5em;
+    }
+
+    .controls-left {
+      float: left;
+    }
+
+    .controls-right {
+      float: right;
+    }
+  }
+}
+
+input, button, select {
+  font: inherit;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="password"],
+input[type="email"],
+select {
+  background-color: var(--background-layer);
+  color: var(--foreground);
+  border: none;
+  border-bottom: 3px solid var(--foreground);
+  padding: 0.5em;
+}
+
+button, input[type="button"], input[type="submit"], ::file-selector-button {
+  cursor: pointer;
+  border-radius: 0;
+  border: none;
+  padding: 0.5rem 0.5rem;
+  border-bottom: 3px solid var(--accent);
+  box-sizing: border-box;
+  color: var(--background);
+  background-color: var(--foreground);
+}
+
+::file-selector-button {
+  padding-right: 0.5em;
+  margin-right: 0.5em;
+}
+/* End forms and inputs */
+
+/* Notices */
+.notice {
+  border-left: 3px solid var(--foreground);
+  background-color: var(--background-layer);
+  padding: 0.5em 1em 0.5em 1em;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+
+  &.alert-error {
+    border-color: var(--strawberry);
+  }
+
+  &.alert-success {
+    border-color: var(--watermelon);
+  }
+}
+/* End notices */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: var(--light);
+    --foreground-layer: var(--light-layer);
+    --background: var(--dark);
+    --background-layer: var(--dark-layer);
+  }
+}
+
+@media (forced-colors: active) {
+  .icon {
+    forced-color-adjust: none;
+    background-color: var(--foreground);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  fieldset {
+    grid-template-columns: auto;
+
+    label {
+      text-align: left;
+      margin-top: 0.5em;
+    }
+
+    .form-controls {
+      grid-column: 1;
+    }
+  }
+}
