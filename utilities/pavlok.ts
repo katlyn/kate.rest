@@ -49,11 +49,12 @@ interface PavlokGetAllStimulusResponse {
   stimulusList: PavlokStimulus[];
 }
 
+type PavlokApiError = string | { loc: string[]; msg: string; type: string };
 export class PavlokError extends Error {
-  errors: string[];
+  errors: PavlokApiError[];
   constructor(
     response: {
-      errors: (string | { loc: string[]; msg: string; type: string })[];
+      errors: PavlokApiError[];
     },
   ) {
     super(response.errors.join(", "));
