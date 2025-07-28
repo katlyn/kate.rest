@@ -9,7 +9,7 @@ export function RatingInput(
     <>
       <span class="rating-input-label">{children}</span>
       <div class="rating-input">
-        {[...Array(5)].map((_, idx, arr) => {
+        {[...Array(5)].map((_, idx) => {
           const id = nanoid();
           const inputId = `input-${id}`;
           return (

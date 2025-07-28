@@ -1,4 +1,4 @@
-import { Handlers, PageProps, RouteContext } from "$fresh/server.ts";
+import { Handlers, RouteContext } from "$fresh/server.ts";
 import { ComponentChildren } from "preact";
 import {
   handleStimulusForm,
@@ -37,7 +37,10 @@ export const handler: Handlers = {
   },
 };
 
-export default async function Index(_req, ctx: RouteContext<IndexProps>) {
+export default async function Index(
+  _req: Request,
+  ctx: RouteContext<IndexProps>,
+) {
   const { data } = ctx;
   const reviews = await prisma.review.findMany({
     orderBy: { created: "desc" },
