@@ -33,6 +33,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
+a {
+  color: inherit;
+  text-decoration: var(--accent) underline 2px;
+  transition: text-decoration 0.2s ease-in-out;
+}
+
+a:hover {
+  text-decoration: currentColor underline 2px;
+}
+
 /* Forms and inputs */
 :focus {
   outline: var(--foreground) double medium;
@@ -88,6 +98,7 @@ input[type="number"],
 input[type="date"],
 input[type="password"],
 input[type="email"],
+input[type="url"],
 select {
   background-color: var(--background-layer);
   color: var(--foreground);
@@ -105,6 +116,52 @@ button, input[type="button"], input[type="submit"], ::file-selector-button {
   box-sizing: border-box;
   color: var(--background);
   background-color: var(--foreground);
+}
+
+.rating-input-label {
+  text-align: right;
+  margin: auto 0;
+}
+
+.rating-input {
+  width: fit-content;
+  background-color: var(--background-layer);
+  color: var(--foreground);
+
+  input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: transparent;
+    /* Not removed via appearance */
+    margin: 0;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  label {
+    border: none;
+    background-color: var(--foreground);
+    color: var(--background-layer);
+    border-bottom: 3px solid var(--foreground);
+    padding: 0.5em;
+    display: inline-block;
+  }
+
+  input[type="radio"]:checked + label {
+    border-bottom-color: var(--accent);
+  }
+
+  &:not(:has(input[type="radio"]:checked)) label,
+  input[type="radio"]:checked + label ~ label {
+    background-color: transparent;
+    color: var(--foreground);
+  }
+  input[type="radio"]:focus + label {
+    outline: var(--foreground) double medium;
+    outline-offset: 1px;
+  }
 }
 
 ::file-selector-button {
@@ -131,6 +188,25 @@ button, input[type="button"], input[type="submit"], ::file-selector-button {
   }
 }
 /* End notices */
+
+/* Review cards */
+.review-card {
+  margin-top: 1em;
+  border-left: 3px solid var(--accent);
+  padding: 0.5em 1em 0.5em 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  blockquote, p {
+    margin: 0;
+  }
+
+  .review-card-author {
+    font-size: 0.8em;
+  }
+}
+/* End review cards */
 
 @media (prefers-color-scheme: dark) {
   :root {

@@ -12,3 +12,7 @@ node_modules/
 
 # Editor-specific files
 .vscode
+
+# Prisma
+/prisma/generated
+/prisma/dev.db

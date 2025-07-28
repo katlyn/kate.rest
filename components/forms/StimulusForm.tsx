@@ -1,11 +1,11 @@
 import { ComponentChildren } from "preact";
-import { FormInput } from "./FormInput.tsx";
-import { SelectInput } from "./SelectInput.tsx";
-import { Alert } from "./Alert.tsx";
+import { FormInput } from "../inputs/FormInput.tsx";
+import { SelectInput } from "../inputs/SelectInput.tsx";
+import { Alert } from "../Alert.tsx";
 import pavlok, {
   PavlokError,
   PavlokStimulusType,
-} from "../utilities/pavlok.ts";
+} from "../../config/pavlok.ts";
 
 const stimulusOptions = [
   { value: PavlokStimulusType.ZAP, name: "shock" },
@@ -93,7 +93,7 @@ export function StimulusForm() {
     <form method="post" encType="multipart/form-data">
       <input type="hidden" name="form" value="stimulus" />
       <fieldset>
-        <legend>Send Stimulus</legend>
+        <legend>Shock a Fox</legend>
         <FormInput
           type="number"
           name="strength"
