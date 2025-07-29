@@ -1,0 +1,8 @@
+# Compose file for use in local development
+services:
+  postgres:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres

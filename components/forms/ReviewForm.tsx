@@ -3,6 +3,7 @@ import { FormInput } from "../inputs/FormInput.tsx";
 import { Alert } from "../Alert.tsx";
 import { RatingInput } from "../inputs/RatingInput.tsx";
 import prisma from "../../config/prisma.ts";
+import pavlok, { PavlokStimulusType } from "../../config/pavlok.ts";
 
 const limits = {
   message: 512,
@@ -57,6 +58,14 @@ export async function handleReviewForm(
       url,
     },
   });
+
+  try {
+    await pavlok.sendStimulus(
+      PavlokStimulusType.BEEP,
+      5,
+      `New ${rating} star review from ${author}:\n${message}`,
+    );
+  } catch (_) {}
 
   return <Alert type="success">Submitted the fops review!!</Alert>;
 }

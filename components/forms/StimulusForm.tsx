@@ -65,8 +65,8 @@ export async function handleStimulusForm(
   try {
     await pavlok.sendStimulus(
       type as PavlokStimulusType,
-      strength,
-      `${message}\nFrom ${sender ?? "unknown"}`,
+      Math.floor(strength / 2), // scary amount of shock
+      `${message}\nFrom ${sender || "unknown"}`,
     );
 
     return (

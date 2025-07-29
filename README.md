@@ -8,7 +8,14 @@ Make sure to install Deno: https://deno.land/manual/getting_started/installation
 
 Then start the project:
 
-```
+```sh
+# Start postgres in docker
+docker compose up -d
+
+# Copy sample env file
+cp .env.example .env
+
+# Start development server
 deno task start
 ```
 
