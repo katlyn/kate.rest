@@ -52,8 +52,8 @@ export default async function Index(
 
       {data?.notices}
 
-      <StimulusForm />
       <ReviewForm />
+      <StimulusForm />
 
       <h2>Reviews</h2>
       {reviews.map((r) => <ReviewCard key={r.id} review={r} />)}
