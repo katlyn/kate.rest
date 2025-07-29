@@ -8,9 +8,9 @@ import pavlok, {
 } from "../../config/pavlok.ts";
 
 const stimulusOptions = [
+  { value: PavlokStimulusType.BEEP, name: "beep!" },
   { value: PavlokStimulusType.ZAP, name: "shock" },
   { value: PavlokStimulusType.VIBE, name: "buzz" },
-  { value: PavlokStimulusType.BEEP, name: "beep!" },
 ];
 
 export async function handleStimulusForm(
