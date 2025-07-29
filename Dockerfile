@@ -1,4 +1,4 @@
-FROM denoland/deno:alpine-2.4.2
+FROM denoland/deno:2.4.2
 WORKDIR /katlyn-rest
 
 COPY . .
