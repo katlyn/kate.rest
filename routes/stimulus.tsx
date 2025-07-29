@@ -24,9 +24,6 @@ export default function Stimulus(
       <h1>kate.rest</h1>
       <h2>fops shocking department</h2>
       <p>
-        zap kate or something idk o-o"
-      </p>
-      <p>
         yes this does actually send physical stimulation to her wrist mere
         seconds after you submit the form please be nice
       </p>
@@ -35,9 +32,10 @@ export default function Stimulus(
       <StimulusForm />
       <p>want to shock a fops from the terminal? this should work :3</p>
       <code>
-        curl -F "type=zap" {"         \\\n     "}
-        -F "strength=10" {"      \\\n     "}
-        -F "message=hewwos :3" {"\\\n     "}
+        curl -F "type=zap" {"            \\\n     "}
+        -F "strength=10" {"         \\\n     "}
+        -F "message=hewwos :3" {"   \\\n     "}
+        -F "sender=a cute entity" {"\\\n     "}
         https://kate.rest/stimulus
       </code>
     </>
