@@ -65,7 +65,9 @@ export async function handleStimulusForm(
   try {
     await pavlok.sendStimulus(
       type as PavlokStimulusType,
-      Math.floor(strength / 2), // scary amount of shock
+      type === PavlokStimulusType.ZAP
+        ? Math.floor(strength / 2) // scary amount of shock
+        : strength,
       `${message}\nFrom ${sender || "unknown"}`,
     );
 
@@ -124,7 +126,7 @@ export function StimulusForm() {
         <FormInput
           type="text"
           name="sender"
-          placeholder="if you wanna let me know who you are :3"
+          placeholder="if you wanna let her know who you are :3"
         >
           Sender
         </FormInput>

@@ -65,7 +65,9 @@ export async function handleReviewForm(
       5,
       `New ${rating} star review from ${author}:\n${message}`,
     );
-  } catch (_) {}
+  } catch (_) {
+    // We do not care much if this errors
+  }
 
   return <Alert type="success">Submitted the fops review!!</Alert>;
 }
@@ -81,7 +83,7 @@ export function ReviewForm() {
         <FormInput
           type="text"
           name="message"
-          placeholder="what scary things do entities have to say about me o-o&quot;"
+          placeholder="what scary things do entities have to say about it o-o&quot;"
           minlength={3}
           maxlength={limits.message}
           required
