@@ -46,7 +46,7 @@ export default function Stimulus(
         is an optional integer.
       </p>
       <code class="block">
-        $ drill 100.shock.kate.rest @127.0.0.1 -p 53535 TXT{"\n"}
+        $ drill TXT 50.shock.kate.rest{"\n"}
         ;;-&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, rcode: NOERROR, id: 15769
         ;;flags: qr rd ; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0 {"\n"}
         ;;QUESTION SECTION:{"\n"}
