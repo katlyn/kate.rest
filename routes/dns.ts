@@ -81,6 +81,5 @@ function isStimulusType(str: string): str is PavlokStimulusType {
 }
 
 function errorResponse() {
-  console.error(new Error());
   return new Response(JSON.stringify({ RCODE: 1 }));
 }
