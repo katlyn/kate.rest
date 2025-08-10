@@ -45,11 +45,16 @@ a:hover {
 
 code {
   font-family: "Berkeley Mono", monospace;
-  background-color: var(--light-layer);
-  padding: 0.5em;
-  display: block;
-  border-left: 3px solid var(--foreground);
+  background-color: var(--background-layer);
   white-space: pre;
+  padding: 0.1em;
+
+  &.block {
+    display: block;
+    overflow-x: scroll;
+    padding: 0.5em;
+    border-left: 3px solid var(--foreground);
+  }
 }
 
 /* Forms and inputs */

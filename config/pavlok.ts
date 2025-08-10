@@ -29,7 +29,7 @@ interface PavlokStimulus {
   meta?: string;
 }
 
-export const enum PavlokStimulusType {
+export enum PavlokStimulusType {
   ZAP = "zap",
   BEEP = "beep",
   VIBE = "vibe",

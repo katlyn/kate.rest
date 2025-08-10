@@ -31,12 +31,29 @@ export default function Stimulus(
       {data?.notices}
       <StimulusForm />
       <p>want to shock a fops from the terminal? this should work :3</p>
-      <code>
+      <code class="block">
         curl -F "type=zap" {"            \\\n     "}
         -F "strength=10" {"         \\\n     "}
         -F "message=hewwos :3" {"   \\\n     "}
         -F "sender=a cute entity" {"\\\n     "}
         https://kate.rest/stimulus
+      </code>
+      <p>
+        Alternatively, interactions can also be sent over DNS! Just do a{" "}
+        <code>TXT</code>lookup for{" "}
+        <code>[strength].shock.kate.rest</code>, where <code>strength</code>
+        {" "}
+        is an optional integer.
+      </p>
+      <code class="block">
+        $ drill 100.shock.kate.rest @127.0.0.1 -p 53535 TXT ;;{"\n"}
+        -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, rcode: NOERROR, id: 15769
+        ;;flags: qr rd ; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0 {"\n"}
+        ;;QUESTION SECTION:{"\n"}
+        ;; 100.shock.kate.rest.	IN	TXT{"\n"}
+        {"\n"}
+        ;; ANSWER SECTION:{"\n"}
+        100.shock.kate.rest.	0	IN	TXT	"yip!" "&gt;////&lt;"{"\n"}
       </code>
     </>
   );
