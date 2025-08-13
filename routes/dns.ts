@@ -1,8 +1,12 @@
 import { Handlers } from "$fresh/server.ts";
-import pavlok, { PavlokStimulusType } from "../config/pavlok.ts";
+import pavlok, { odi, PavlokStimulusType } from "../config/pavlok.ts";
 
 const TXT_RECORD_TYPE = 16;
-const NAME_BASE = ".kate.rest.";
+
+const ENDPOINTS = {
+  ".kate.rest.": pavlok,
+  ".puppygirl.systems.": odi,
+};
 
 const RESPONSES = [
   "wrraff!",
@@ -19,11 +23,19 @@ export const handler: Handlers = {
   async GET(_req, ctx) {
     const name = ctx.url.searchParams.get("name");
     const type = ctx.url.searchParams.get("type");
-    if (!name?.endsWith(NAME_BASE) || type !== TXT_RECORD_TYPE.toString()) {
+
+    const basename = Object.keys(ENDPOINTS).find((basename) =>
+      name?.endsWith(basename)
+    ) as keyof typeof ENDPOINTS | undefined;
+
+    if (
+      name === null || basename === undefined ||
+      type !== TXT_RECORD_TYPE.toString()
+    ) {
       return errorResponse();
     }
 
-    const shockArgs = name.slice(0, -NAME_BASE.length).split(".");
+    const shockArgs = name.slice(0, -basename.length).split(".");
     let action: string, strength: number;
     if (shockArgs.length === 1) {
       strength = 50;
@@ -48,7 +60,8 @@ export const handler: Handlers = {
     }
 
     try {
-      await pavlok.sendStimulus(action, strength, "stimulus received over dns");
+      const client = ENDPOINTS[basename];
+      await client.sendStimulus(action, strength, "stimulus received over dns");
     } catch (err) {
       console.error(err);
       return new Response(JSON.stringify({

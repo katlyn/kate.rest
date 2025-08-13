@@ -130,5 +130,5 @@ class PavlokClient {
     return response as T;
   }
 }
-
+export const odi = new PavlokClient({ token: env.odiPavlokToken.reveal() });
 export default new PavlokClient({ token: env.pavlokToken.reveal() });
