@@ -13,12 +13,17 @@ const stimulusOptions = [
   { value: PavlokStimulusType.VIBE, name: "buzz" },
 ];
 
+function scale(inMin: number, inMax: number, outMin: number, outMax: number) {
+  return (num: number) =>
+    (num - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+}
+
 export async function handleStimulusForm(
   form: FormData,
 ): Promise<ComponentChildren> {
   const rawStrength = form.get("strength");
   const type = form.get("type");
-  const message = form.get("message");
+  let message = form.get("message");
   const sender = form.get("sender");
   if (
     typeof rawStrength !== "string" ||
@@ -62,12 +67,16 @@ export async function handleStimulusForm(
     );
   }
 
+  // I don't wanna get fried ;~;
+  if (type === PavlokStimulusType.ZAP) {
+    message += `\nOriginal strength: ${strength}`;
+    strength = scale(1, 100, 15, 75)(strength);
+  }
+
   try {
     await pavlok.sendStimulus(
       type as PavlokStimulusType,
-      type === PavlokStimulusType.ZAP
-        ? Math.floor(strength / 2) // scary amount of shock
-        : strength,
+      strength,
       `${message}\nFrom ${sender || "unknown"}`,
     );
 
